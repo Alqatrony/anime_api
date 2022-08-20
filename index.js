@@ -91,22 +91,45 @@ app.get('/animes/:Title', passport.authenticate('jwt', { session: false}), (req,
     });
 });
 
+// Get genres 
+app.get('/genre',passport.authenticate('jwt',{session:false}), (req, res) => {
+	Genres.find()
+	  .then((genre) => {
+		res.status(200).json(genre);
+	  }).catch((err) => {
+		console.error(err);
+		res.status(500).send('Error: ' + err);
+	  });
+  });
+
 // Get info about a genre by the name of the genre
 app.get('/genre/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Genres.findOne({ 'Genre.Name': req.params.Name }).then((anime) => {
-        if (anime) {
-          res.status(200).json(anime.Genre);
+    Genres.findOne({ 'Name': req.params.Name }).then((genre) => {
+        if (genre) {
+          res.status(200).json(genre);
         } else {
           res.status(400).send('Genre not found.');
         };
     });
 });
 
+// Gets info about a MangaArtist
+app.get('/mangaArtists', passport.authenticate('jwt', { session: false}), (req, res) => {
+    MangaArtists.find()
+    .then((mangaArtists) => {
+        res.status(200).json(mangaArtists);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
 // Gets info about a MangaArtist by MangaArtist's name
 app.get('/mangaArtists/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
-    MangaArtists.findOne({'mangaArtists.Name': req.params.Name})
-    .then((anime) => {
-        res.status(200).json(anime.MangaArtists);
+    MangaArtists.findOne({'Name': req.params.Name})
+    .then((mangaArtists) => {
+        res.status(200).json(mangaArtists);
     })
     .catch((err) => {
         console.error(err);
