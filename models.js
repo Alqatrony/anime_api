@@ -27,7 +27,7 @@ let userSchema = mongoose.Schema({
     Email: {type: String, required: true},
     Password: {type: String, required: true},
     Birthdate: Date,
-    FavoriteAnime: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anime' }]
+    FavoriteAnimes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anime' }]
 });
 
  // defined a function that hashes the password
