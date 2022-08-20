@@ -37,13 +37,13 @@ const MangaArtist = Models.MangaArtist;
 // logging with morgan (middleware)
 app.use(morgan('common'));
 
-//mongoose.connect('mongodb://localhost:27017/myAnimeDB', {useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/myAnimeDB', {useNewUrlParser: true, useUnifiedTopology: true });
 
 // Comment this before puhsing to HEROKU
-// mongoose.connect('mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true });
+ mongoose.connect('mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true });
 
 // connecting to the database
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // import example
 // mongoimport --uri mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB --collection mangaArtists --type JSON --file C:\Users\User\Desktop\Alqatrony_Careerfoundry\jeson\mangaArtist.json

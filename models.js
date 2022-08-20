@@ -47,7 +47,7 @@ let genreSchema = mongoose.Schema({
 });
 
 // MangaArtist Schema 
-let mangaArtistSchema = mongoose.Schema({
+let mangaArtistsSchema = mongoose.Schema({
 Name: { type: String, required: true },
 Bio: { type: String, required: true },
 Birth: { type: String, required: true },
@@ -58,10 +58,10 @@ Death: { type: String },
 let Anime = mongoose.model('Anime', animeSchema);
 let User = mongoose.model('User', userSchema);
 let Genre = mongoose.model('Genre', genreSchema);
-let MangaArtist = mongoose.model('MangaArtist', mangaArtistSchema);
+let MangaArtists = mongoose.model('MangaArtist', mangaArtistsSchema);
 
 // exporting the created models
 module.exports.Anime = Anime;
 module.exports.User = User;
 module.exports.Genre = Genre;
-module.exports.MangaArtist = MangaArtist;
+module.exports.MangaArtists = MangaArtists;
