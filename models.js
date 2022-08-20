@@ -58,7 +58,7 @@ Death: { type: String },
 let Anime = mongoose.model('Anime', animeSchema);
 let User = mongoose.model('User', userSchema);
 let Genre = mongoose.model('Genre', genreSchema);
-let MangaArtists = mongoose.model('MangaArtist', mangaArtistsSchema);
+let MangaArtists = mongoose.model('MangaArtists', mangaArtistsSchema);
 
 // exporting the created models
 module.exports.Anime = Anime;

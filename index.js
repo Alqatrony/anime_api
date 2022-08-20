@@ -32,7 +32,7 @@ app.use(cors({
 const Animes = Models.Anime;
 const Users = Models.User;
 const Genres = Models.Genre;
-const MangaArtist = Models.MangaArtist;
+const MangaArtists = Models.MangaArtists;
 
 // logging with morgan (middleware)
 app.use(morgan('common'));
@@ -46,7 +46,7 @@ app.use(morgan('common'));
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // import example
-// mongoimport --uri mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB --collection mangaArtists --type JSON --file C:\Users\User\Desktop\Alqatrony_Careerfoundry\jeson\mangaArtist.json
+// mongoimport --uri mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB --collection mangaArtists --type JSON --file C:\Users\User\Desktop\Alqatrony_Careerfoundry\jeson\mangaArtists.json
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -104,9 +104,9 @@ app.get('/genre/:Name', passport.authenticate('jwt', { session: false}), (req, r
 
 // Gets info about a MangaArtist by MangaArtist's name
 app.get('/mangaArtists/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
-    MangaArtist.findOne({'mangaArtists.Name': req.params.Name})
+    MangaArtists.findOne({'mangaArtists.Name': req.params.Name})
     .then((anime) => {
-        res.status(200).json(anime.MangaArtist);
+        res.status(200).json(anime.MangaArtists);
     })
     .catch((err) => {
         console.error(err);
