@@ -40,10 +40,10 @@ app.use(morgan('common'));
 // mongoose.connect('mongodb://localhost:27017/myAnimeDB', {useNewUrlParser: true, useUnifiedTopology: true });
 
 // Comment this before puhsing to HEROKU
- mongoose.connect('mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true });
 
 // connecting to the database
-//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // import example
 // mongoimport --uri mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB --collection mangaArtists --type JSON --file C:\Users\User\Desktop\Alqatrony_Careerfoundry\jeson\mangaArtist.json
@@ -103,8 +103,8 @@ app.get('/genre/:Name', passport.authenticate('jwt', { session: false}), (req, r
 });
 
 // Gets info about a MangaArtist by MangaArtist's name
-app.get('/mangaArtist/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
-    MangaArtist.findOne({'mangaArtist.Name': req.params.Name})
+app.get('/mangaArtists/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
+    MangaArtist.findOne({'mangaArtists.Name': req.params.Name})
     .then((anime) => {
         res.status(200).json(anime.MangaArtist);
     })
