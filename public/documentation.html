@@ -17,7 +17,6 @@
       }
         body{
             box-sizing: border-box;
-            font-family: 'night-in-tokyo-shadow';
             margin-top: 100px;
             margin-left: 50px;
             margin-right: 50px;
@@ -30,6 +29,7 @@
         }
         header{
             text-align: center;
+            font-family: 'night-in-tokyo-shadow';
             font-size: 50px;
             color: #061540;
         }
@@ -49,13 +49,8 @@
         tbody{
           font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
         }
-        .colum:hover {background-color: #FEC2C1;}
+        tr:hover {background-color: #FEC2C1;}
 
-        @media screen and (hover:hover){
-            .colum{
-                background-color: #FEC2C1;
-            }
-        }
 
         .h1content{
           font-family: 'night-in-tokyo-shadow-bold';
@@ -81,110 +76,110 @@
                       <th>Response</th>
                   </tr>
               </thead>
-                  <tr class="colum">
+                  <tr>
                       <td>Display Welcome Page to the user.</td>
                       <td>/</td>
                       <td>GET</td>
                       <td>None</td>
                       <td>A text message welcoming the user</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Register user</td>
                       <td>/users</td>
                       <td>POST</td>
                       <td>A JSON object holding data about the user to register.</td>
                       <td>A JSON object contain data about user that was register.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Deregister user.</td>
                       <td>/users/:username</td>
                       <td>DELETE</td>
                       <td>None</td>
                       <td>A text message indicating user was successfully deregister.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Get the list of favorites animes.</td>
                       <td>/users/:username/favorites</td>
                       <td>GET</td>
                       <td>None</td>
                       <td>A JSON object contain data about list of favorites animes.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Add anime to the list of favorites.</td>
                       <td>/users/:username/favorites</td>
                       <td>POST</td>
                       <td>A JSON Object holding data about the animes to add to the favorites list.</td>
                       <td>A JSON object contain data about the anime add to the list.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Remove anime to the favorite list.</td>
                       <td>/users/:username/favorites/:anime</td>
                       <td>DELETE</td>
                       <td>None</td>
                       <td>A text message indicating anime was successfully remove.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Get watchlist.</td>
                       <td>/users/:username/favorites/watchlist</td>
                       <td>GET</td>
                       <td>None</td>
                       <td>A JSON contain data of all the animes to watchlist.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>add animes to watchlist.</td>
                       <td>/users/:username/favorites/watchlist/:anime</td>
                       <td>POST</td>
                       <td>A JSON object contain anime data</td>
                       <td>A JSON object holding data about the anime that was added to the whatchlist.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>remove animes to watchlist.</td>
                       <td>/users/:username/favorites/watchlist/:anime</td>
                       <td>DELETE</td>
                       <td>None</td>
                       <td>A text message indicating anime successfully remove.</td>
                   </tr>
-                  <tr class="colum">
+                  <tr>
                       <td>Get list animes</td>
                       <td>/animes</td>
                       <td>GET</td>
                       <td>None</td>
                       <td>JSON object contain data about all the animes.</td>
                   </tr>
-                  <tr class="colum">
-                      <td class="colum">Get list animes by title.</td>
+                  <tr>
+                      <td>Get list animes by title.</td>
                       <td>/animes/:title</td>
                       <td>GET</td>
                       <td>None</td>
                       <td>A JSON object contain data(description, genres, mangaArtist,image URL) about the anime chose. </td>
                   </tr>
-                  <tr class="colum">
-                      <td class="colum">Get list mangaArtists.</td>
-                      <td class="colum">/mangaArtists</td>
-                      <td class="colum">GET</td>
-                      <td class="colum">None</td>
-                      <td class="colum">JSON object contain all the mangaArtists.</td>
-                  </tr>
-                  <tr class="colum">
-                      <td class="colum">Get list mangaArtist by name.</td>
-                      <td class="colum">/mangaArtist/:name</td>
-                      <td class="colum">GET</td>
-                      <td class="colum">None</td>
-                      <td class="colum">A JSON object contain data about mangaArtist chose, bio, holding name, birthyear and animes</td>
+                  <tr>
+                      <td>Get list mangaArtists.</td>
+                      <td>/mangaArtists</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>JSON object contain all the mangaArtists.</td>
                   </tr>
                   <tr>
-                      <td class="colum">Get list genres</td>
-                      <td class="colum">/genres</td>
-                      <td class="colum">GET</td>
-                      <td class="colum">None</td>
-                      <td class="colum">A JSON object contain data about all the genres</td>
+                      <td>Get list mangaArtist by name.</td>
+                      <td>/mangaArtist/:name</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about mangaArtist chose, bio, holding name, birthyear and animes</td>
                   </tr>
-                  <tr class="colum">
-                      <td class="colum">Allow user to login to the application</td>
-                      <td class="colum">/login</td>
-                      <td class="colum">POST</td>
-                      <td class="colum">None</td>
-                      <td class="colum">A JSON object contain data about the user logged to the app, holding name, lastname, birthday, email, username.</td>
+                  <tr>
+                      <td>Get list genres</td>
+                      <td>/genres</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about all the genres</td>
+                  </tr>
+                  <tr>
+                      <td>Allow user to login to the application</td>
+                      <td>/login</td>
+                      <td>POST</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about the user logged to the app, holding name, lastname, birthday, email, username.</td>
                   </tr>
           </table>
       </div>
