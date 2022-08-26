@@ -193,15 +193,17 @@ app.get('/users', passport.authenticate('jwt', { session: false}), (req, res) =>
 
 // GET a user by username
 app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Users.findOne({Username: req.params.Username})
-    .then((user) => {
-        res.json(user);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
-});
+    Users.findOne({
+		Username: req.params.Username
+	  })
+		.populate('FavoriteAnimes')
+	  .then((user) => {
+		res.status(201).json(user);
+	  }).catch((err) => {
+		console.error(err);
+		res.status(500).send('Error: ' + err);
+	  });
+  });
 
 // Update username 
 app.patch('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
@@ -226,35 +228,38 @@ app.patch('/users/:Username', passport.authenticate('jwt', { session: false}), (
 
 // Adds new anime to the user's favoriteAnimes list
 app.post('/users/:Username/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Users.findOneAndUpdate({ _Id: req.params.UserID }, {
-        $push: { FavoriteAnimes: req.params.AnimeID}
-    },
-    {new: true}, 
-    (err, updatedUser) => {
-        if(err) {
+    Users.findOneAndUpdate(
+        {Username: req.params.Username},
+        {$push: {FavoriteAnimes: req.params.AnimeID}},
+        {new: true},
+        (err, updatedUser) => {
+          if (err) {
             console.error(err);
             res.status(500).send('Error: ' + err);
-        } else {
+          }
+          else {
             res.json(updatedUser);
+          }
         }
+      )
     });
-});
 
 // Delete a anime from the user's favoriteAnimes list
 app.delete('/users/:Username/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Users.findOneAndUpdate({ _Id: req.params.UserID }, {
-        $pull: { FavoriteAnimes: req.params.AnimeID}
-    },
-    {new: true}, 
-    (err, updatedUser) => {
-        if(err) {
+    Users.findOneAndUpdate(
+        {Username: req.params.Username},
+        {$pull: {FavoriteAnimes: req.params.AnimeID }},
+        {new: true},
+        (err, updatedUser) => {
+          if (err) {
             console.error(err);
-            res.status(500).send('Error: ' + err);
-        } else {
+            res.status(500).send(' was not found' + err);
+          }else {
             res.json(updatedUser);
+          }
         }
+      )
     });
-});
 
 // Delete a user from the users's array
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
