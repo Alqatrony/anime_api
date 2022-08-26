@@ -16,7 +16,7 @@ const Models = require('./models.js');
 
 // Importing CORS
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://myanimed-b.herokuapp.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://myanimed-b.herokuapp.com', 'http://localhost:1234', 'http://localhost:4200', 'https://alqatrony.github.io'];
 app.use(cors({
 	origin: (origin, callback) => {
 	  if(!origin) return callback(null, true);
