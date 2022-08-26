@@ -225,7 +225,7 @@ app.patch('/users/:Username', passport.authenticate('jwt', { session: false}), (
 });
 
 // Adds new anime to the user's favoriteAnimes list
-app.post('/users/:UserID/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.post('/users/:Username/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
     Users.findOneAndUpdate({ _Id: req.params.UserID }, {
         $push: { FavoriteAnimes: req.params.AnimeID}
     },
