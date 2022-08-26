@@ -241,7 +241,7 @@ app.post('/users/:UserID/animes/:AnimeID', passport.authenticate('jwt', { sessio
 });
 
 // Delete a anime from the user's favoriteAnimes list
-app.delete('/users/:UserID/animes/:a#AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.delete('/users/:UserID/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
     Users.findOneAndUpdate({ _Id: req.params.UserID }, {
         $pull: { FavoriteAnimes: req.params.AnimeID}
     },
