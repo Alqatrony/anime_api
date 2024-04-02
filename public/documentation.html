@@ -1,0 +1,194 @@
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+    <title>Anime API</title>
+    <style>
+      @font-face {
+        font-family: 'night-in-tokyo-shadow';
+        src: url(./font/night-in-tokyo.shadow-regular.ttf);
+      }
+
+      @font-face {
+        font-family: 'night-in-tokyo-shadow-bold';
+        src: url(./font/night-in-tokyo.bold.ttf);
+      }
+        body{
+            box-sizing: border-box;
+            margin-top: 100px;
+            margin-left: 50px;
+            margin-right: 50px;
+            font-weight:500;
+            background-image: url(./image/4243109.jpg);
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            align-items: center;
+            display: inline-table;
+        }
+        header{
+            text-align: center;
+            font-family: 'night-in-tokyo-shadow';
+            font-size: 50px;
+            color: #061540;
+        }
+        nav h1{
+            font-size:55px;
+
+        }
+        th,td{
+            padding:15px;
+            text-align: left;
+            border-bottom: 2px solid #0F1642;
+        }
+        th{
+            background-color: #FFD3AE;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        tbody{
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+        tr:hover {background-color: #FEC2C1;}
+
+
+        .h1content{
+          font-family: 'night-in-tokyo-shadow-bold';
+        }
+
+        @media only screen and (max-width: 600px) {
+            body{ 
+                background-attachment: fixed;
+            }
+            tr:hover {background-color: #FEC2C1;}
+        }
+
+    </style>
+</head>
+<html>
+  <body>
+      <header>
+        <h1>my Anime Documentation</h1>
+        </nav> 
+      </header>
+      <div class="endpoint-table">
+          <h1 class="h1content">Description endpoints:</h1>
+          <table>
+              <thead>
+                  <tr>
+                      <th>Request</th>
+                      <th>URL</th>
+                      <th>Method</th>
+                      <th>Body data</th>
+                      <th>Response</th>
+                  </tr>
+              </thead>
+                  <tr>
+                      <td>Display Welcome Page to the user.</td>
+                      <td>/</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A text message welcoming the user</td>
+                  </tr>
+                  <tr>
+                      <td>Register user</td>
+                      <td>/users</td>
+                      <td>POST</td>
+                      <td>A JSON object holding data about the user to register.</td>
+                      <td>A JSON object contain data about user that was register.</td>
+                  </tr>
+                  <tr>
+                      <td>Deregister user.</td>
+                      <td>/users/:username</td>
+                      <td>DELETE</td>
+                      <td>None</td>
+                      <td>A text message indicating user was successfully deregister.</td>
+                  </tr>
+                  <tr>
+                      <td>Get the list of favorites animes.</td>
+                      <td>/users/:username/favorites</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about list of favorites animes.</td>
+                  </tr>
+                  <tr>
+                      <td>Add anime to the list of favorites.</td>
+                      <td>/users/:username/favorites</td>
+                      <td>POST</td>
+                      <td>A JSON Object holding data about the animes to add to the favorites list.</td>
+                      <td>A JSON object contain data about the anime add to the list.</td>
+                  </tr>
+                  <tr>
+                      <td>Remove anime to the favorite list.</td>
+                      <td>/users/:username/favorites/:anime</td>
+                      <td>DELETE</td>
+                      <td>None</td>
+                      <td>A text message indicating anime was successfully remove.</td>
+                  </tr>
+                  <tr>
+                      <td>Get watchlist.</td>
+                      <td>/users/:username/favorites/watchlist</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON contain data of all the animes to watchlist.</td>
+                  </tr>
+                  <tr>
+                      <td>add animes to watchlist.</td>
+                      <td>/users/:username/favorites/watchlist/:anime</td>
+                      <td>POST</td>
+                      <td>A JSON object contain anime data</td>
+                      <td>A JSON object holding data about the anime that was added to the whatchlist.</td>
+                  </tr>
+                  <tr>
+                      <td>remove animes to watchlist.</td>
+                      <td>/users/:username/favorites/watchlist/:anime</td>
+                      <td>DELETE</td>
+                      <td>None</td>
+                      <td>A text message indicating anime successfully remove.</td>
+                  </tr>
+                  <tr>
+                      <td>Get list animes</td>
+                      <td>/animes</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>JSON object contain data about all the animes.</td>
+                  </tr>
+                  <tr>
+                      <td>Get list animes by title.</td>
+                      <td>/animes/:title</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON object contain data(description, genres, mangaArtist,image URL) about the anime chose. </td>
+                  </tr>
+                  <tr>
+                      <td>Get list mangaArtists.</td>
+                      <td>/mangaArtists</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>JSON object contain all the mangaArtists.</td>
+                  </tr>
+                  <tr>
+                      <td>Get list mangaArtist by name.</td>
+                      <td>/mangaArtist/:name</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about mangaArtist chose, bio, holding name, birthyear and animes</td>
+                  </tr>
+                  <tr>
+                      <td>Get list genres</td>
+                      <td>/genres</td>
+                      <td>GET</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about all the genres</td>
+                  </tr>
+                  <tr>
+                      <td>Allow user to login to the application</td>
+                      <td>/login</td>
+                      <td>POST</td>
+                      <td>None</td>
+                      <td>A JSON object contain data about the user logged to the app, holding name, lastname, birthday, email, username.</td>
+                  </tr>
+          </table>
+      </div>
+  </body>
+</html>
