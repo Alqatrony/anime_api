@@ -29,6 +29,6 @@ As a user, You will be able to receive information on top animes, mangaArtists a
 - Postman
 - Heroku
 
-# My website Link:
+# My API Documentation Link:
 
-https://myanimed-b.herokuapp.com/documentation.html
+https://anime-api-6mg7.onrender.com/documentation.html
