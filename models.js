@@ -9,7 +9,7 @@ let animeSchema = mongoose.Schema({
     Title: {type: String, required: true},
     Description: {type: String, required: true},
     Genre: {
-        Name: String,
+        Name: [String],
         Description: String
     },
     MangaArtist: {
