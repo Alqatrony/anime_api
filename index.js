@@ -16,7 +16,7 @@ const Models = require('./models.js');
 
 // Importing CORS
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://anime-api-6mg7.onrender.com', 'http://localhost:1234', 'http://localhost:4200', 'https://alqatrony.github.io', 'https://myanimeflix.netlify.app', 'http://172.20.10.3:4200'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://anime-api-6mg7.onrender.com', 'http://localhost:1234', 'http://localhost:4200', 'https://alqatrony.github.io', 'https://myanimeflix.netlify.app', '192.168.178.51:4200'];
 app.use(cors({
 	origin: (origin, callback) => {
 	  if(!origin) return callback(null, true);
