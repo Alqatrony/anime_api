@@ -1,32 +1,45 @@
 //importing express, morgan, fs and path
-const express = require('express'),
-app = express(),
-morgan = require('morgan'),
-path = require("path"),
-    // importing body-parser
-    bodyParser = require('body-parser'),
-    uuid = require('uuid');
-    // importing express-validator
-    const { check, validationResult } = require('express-validator');
-
+const express = require("express"),
+  app = express(),
+  morgan = require("morgan"),
+  path = require("path"),
+  // importing body-parser
+  bodyParser = require("body-parser"),
+  uuid = require("uuid");
+// importing express-validator
+const { check, validationResult } = require("express-validator");
 
 // importing mongoose an reated models
-const mongoose = require('mongoose');
-const Models = require('./models.js');
+const mongoose = require("mongoose");
+const Models = require("./models.js");
 
 // Importing CORS
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'https://anime-api-6mg7.onrender.com', 'http://localhost:1234', 'http://localhost:4200', 'https://alqatrony.github.io', 'https://myanimeflix.netlify.app', 'http://192.168.178.58:4200'];
-app.use(cors({
-	origin: (origin, callback) => {
-	  if(!origin) return callback(null, true);
-	  if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-		let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-		return callback(new Error(message ), false);
-	  }
-	  return callback(null, true);
-	}
-  }));
+const cors = require("cors");
+let allowedOrigins = [
+  "http://localhost:8080",
+  "http://testsite.com",
+  "https://anime-api-6mg7.onrender.com",
+  "http://localhost:1234",
+  "http://localhost:4200",
+  "https://alqatrony.github.io",
+  "https://myanimeflix.netlify.app",
+  "http://192.168.178.58:4200",
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If a specific origin isn’t found on the list of allowed origins
+        let message =
+          "The CORS policy for this application doesn’t allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 // integrating mongoose into the REST API
 const Animes = Models.Anime;
@@ -35,7 +48,7 @@ const Genres = Models.Genre;
 const MangaArtists = Models.MangaArtists;
 
 // logging with morgan (middleware)
-app.use(morgan('common'));
+app.use(morgan("common"));
 
 // mongoose.connect('mongodb://localhost:27017/myAnimeDB', {useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -43,7 +56,10 @@ app.use(morgan('common'));
 // mongoose.connect('mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true });
 
 // connecting to the database
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // import example
 // mongoimport --uri mongodb+srv://Alqatrony:Al1357912345678@alqatronycluster.mxoml6c.mongodb.net/myAnimeDB --collection mangaArtists --type JSON --file C:\Users\User\Desktop\Alqatrony_Careerfoundry\jeson\mangaArtists.json
@@ -51,240 +67,317 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //static serving the documentation file
-app.use(express.static('public'));
-app.use(cors());
+app.use(express.static("public"));
 
 // Importing auth.js file
-let auth = require('./auth')(app);
+let auth = require("./auth")(app);
 
 // Importing passport module and passport.js file
-const passport = require('passport');
-require('./passport');
-
+const passport = require("passport");
+require("./passport");
 
 // GET request to main page
-app.get('/', (req, res) => {
-    res.send('Welcome to my Anime App!');
-})
-
-// GET request to Animes page, returns list of all animes in JSON 
-app.get('/animes', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Animes.find()
-    .then((animes) => {
-        res.status(201).json(animes);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
+app.get("/", (req, res) => {
+  res.send("Welcome to my Anime App!");
 });
+
+// GET request to Animes page, returns list of all animes in JSON
+app.get(
+  "/animes",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Animes.find()
+      .then((animes) => {
+        res.status(201).json(animes);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Get info about one anime by title
-app.get('/animes/:Title', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Animes.findOne({ Title: req.params.Title})
-    .then((anime) => {
+app.get(
+  "/animes/:Title",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Animes.findOne({ Title: req.params.Title })
+      .then((anime) => {
         res.json(anime);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.error(err);
-        res.status(400).send('Error: ' + err);
-    });
-});
+        res.status(400).send("Error: " + err);
+      });
+  }
+);
 
-// Get genres 
-app.get('/genre',passport.authenticate('jwt',{session:false}), (req, res) => {
-	Genres.find()
-	  .then((genre) => {
-		res.status(200).json(genre);
-	  }).catch((err) => {
-		console.error(err);
-		res.status(500).send('Error: ' + err);
-	  });
-  });
+// Get info about one anime by ID
+app.get(
+  "/animes/id/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Animes.findById(req.params.id)
+      .then((anime) => {
+        if (anime) {
+          res.status(200).json(anime);
+        } else {
+          res.status(404).send("Anime not found.");
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching anime by ID:", err);
+        res.status(400).send("Error: " + err);
+      });
+  }
+);
+
+// Get genres
+app.get(
+  "/genre",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Genres.find()
+      .then((genre) => {
+        res.status(200).json(genre);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Get info about a genre by the name of the genre
-app.get('/genre/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Genres.findOne({ 'Name': req.params.Name }).then((genre) => {
-        if (genre) {
-          res.status(200).json(genre);
-        } else {
-          res.status(400).send('Genre not found.');
-        };
+app.get(
+  "/genre/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Genres.findOne({ Name: req.params.Name }).then((genre) => {
+      if (genre) {
+        res.status(200).json(genre);
+      } else {
+        res.status(400).send("Genre not found.");
+      }
     });
-});
+  }
+);
 
 // Gets info about a MangaArtist
-app.get('/mangaArtists', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get(
+  "/mangaArtists",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     MangaArtists.find()
-    .then((mangaArtists) => {
+      .then((mangaArtists) => {
         res.status(200).json(mangaArtists);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
-});
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Gets info about a MangaArtist by MangaArtist's name
-app.get('/mangaArtists/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
-    MangaArtists.findOne({'Name': req.params.Name})
-    .then((mangaArtists) => {
+app.get(
+  "/mangaArtists/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    MangaArtists.findOne({ Name: req.params.Name })
+      .then((mangaArtists) => {
         res.status(200).json(mangaArtists);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
-});
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Add new user (registering)
 // input validation for username and password (min 5ch, alphanumeric, not empty, email formatt)
-app.post('/users',
-   [
-    check('Username', 'Username is required').isLength({min:5}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail()
-   ], (req, res) => {
+app.post(
+  "/users",
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters - not allowed."
+    ).isAlphanumeric(),
+    check("Password", "password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
+  (req, res) => {
     // check validation object for errors
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array()});
+      return res.status(422).json({ errors: errors.array() });
     }
     // hashes the password before storing it in db
     let hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({Username: req.body.Username})
-    .then((user) => {
-        if(user) {
-            return res.status(400).send(req.body.Username + ' already exist ');
+    Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + " already exist ");
         } else {
-            Users
-            .create({
-                Username: req.body.Username,
-                Password: hashedPassword,
-                Email: req.body.Email,
-                Birthdate: req.body.Birthdate
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthdate: req.body.Birthdate,
+          })
+            .then((user) => {
+              res.status(201).json(user);
             })
-            .then((user) => {res.status(201).json(user)})
             .catch((error) => {
-                console.error(error);
-                res.status(500).send('Error: ' + error);
+              console.error(error);
+              res.status(500).send("Error: " + error);
             });
         }
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
-        res.status(500).send('Error: ' + error);
-    });
-});
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 
 // GET all users
-app.get('/users', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get(
+  "/users",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     Users.find()
-    .then((users) => {
+      .then((users) => {
         res.status(201).json(users);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
-});
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // GET a user by username
-app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     Users.findOne({
-		Username: req.params.Username
-	  })
-		.populate('FavoriteAnimes')
-	  .then((user) => {
-		res.status(201).json(user);
-	  }).catch((err) => {
-		console.error(err);
-		res.status(500).send('Error: ' + err);
-	  });
-  });
+      Username: req.params.Username,
+    })
+      .populate("FavoriteAnimes")
+      .then((user) => {
+        res.status(201).json(user);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
-// Update username 
-app.patch('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Users.findOneAndUpdate({Username: req.params.Username}, {$set:
-        {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthdate: req.body.Birthdate
-        }
-    },
-    {new: true}, //makes sure the updated document is returned
-    (err, updatedUser) => {
-        if(err){
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+// Update username
+app.patch(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthdate: req.body.Birthdate,
+        },
+      },
+      { new: true }, //makes sure the updated document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
         } else {
-            res.json(updatedUser);
+          res.json(updatedUser);
         }
-    });
-});
+      }
+    );
+  }
+);
 
 // Adds new anime to the user's favoriteAnimes list
-app.post('/users/:Username/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.post(
+  "/users/:Username/animes/:AnimeID",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     Users.findOneAndUpdate(
-        {Username: req.params.Username},
-        {$push: {FavoriteAnimes: req.params.AnimeID}},
-        {new: true},
-        (err, updatedUser) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-          }
-          else {
-            res.json(updatedUser);
-          }
+      { Username: req.params.Username },
+      { $push: { FavoriteAnimes: req.params.AnimeID } },
+      { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
         }
-      )
-    });
+      }
+    );
+  }
+);
 
 // Delete a anime from the user's favoriteAnimes list
-app.delete('/users/:Username/animes/:AnimeID', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.delete(
+  "/users/:Username/animes/:AnimeID",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     Users.findOneAndUpdate(
-        {Username: req.params.Username},
-        {$pull: {FavoriteAnimes: req.params.AnimeID }},
-        {new: true},
-        (err, updatedUser) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send(' was not found' + err);
-          }else {
-            res.json(updatedUser);
-          }
+      { Username: req.params.Username },
+      { $pull: { FavoriteAnimes: req.params.AnimeID } },
+      { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send(" was not found" + err);
+        } else {
+          res.json(updatedUser);
         }
-      )
-    });
+      }
+    );
+  }
+);
 
 // Delete a user from the users's array
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username})
-    .then((user) => {
-        if(!user) {
-            res.status(400).sendStatus(req.params.Username + ' was not found');
+app.delete(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Users.findOneAndRemove({ Username: req.params.Username })
+      .then((user) => {
+        if (!user) {
+          res.status(400).sendStatus(req.params.Username + " was not found");
         } else {
-            res.status(200).send(req.params.Username + ' was deleted.');
+          res.status(200).send(req.params.Username + " was deleted.");
         }
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
-    });
-});
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //error handling
 app.use((err, req, res, next) => {
-    console.log(err.stack);
-    res.status(500).send('Something broke!');
+  console.log(err.stack);
+  res.status(500).send("Something broke!");
 });
 
 // app port listening
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
-    console.log('listening on Port ' + port);
+app.listen(port, "0.0.0.0", () => {
+  console.log("listening on Port " + port);
 });
