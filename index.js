@@ -133,6 +133,22 @@ app.get(
   }
 );
 
+// Get all animes by genre name
+app.get(
+  "/animes/genre/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Animes.find({ "Genre.Name": req.params.Name })
+      .then((animes) => {
+        res.status(200).json(animes);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
 // Get genres
 app.get(
   "/genre",
